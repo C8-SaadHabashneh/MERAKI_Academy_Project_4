@@ -10,11 +10,11 @@ app.use(cors());
 app.use(express.json());
 
 // Import Routers
-
+const rolesRouter = require("./routes/roles");
 
 
 // Routers Middlewares
-
+app.use("/roles", rolesRouter);
 
 
 // Handles any other endpoints [unassigned - endpoints]
