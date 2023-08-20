@@ -11,10 +11,11 @@ app.use(express.json());
 
 // Import Routers
 const rolesRouter = require("./routes/roles");
-
+const usersRouter = require("./routes/users");
 
 // Routers Middlewares
 app.use("/roles", rolesRouter);
+app.use("./users", usersRouter);
 
 
 // Handles any other endpoints [unassigned - endpoints]
