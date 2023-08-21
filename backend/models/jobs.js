@@ -5,6 +5,7 @@ const jobsModel = new mongoose.Schema({
     title: {type: String, required: true},
     jobDescription: {type: String, required: true},
     jobRequirements: {type: String, required: true},
+    applicants: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
 });
 
 module.exports = mongoose.model("Job", jobsModel);

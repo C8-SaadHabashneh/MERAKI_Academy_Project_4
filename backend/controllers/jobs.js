@@ -144,10 +144,45 @@ const deleteJobPostById = (req, res) => {
     });
 };
 
+// this function lets the user apply for a job
+const applyForJob = (req, res) => {
+  const jobId = req.params.id;
+  const userId = req.token.userId;
+  jobsModel.findById(jobId).then((result) => {
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: `The job post with id => ${jobId} isn't found`,
+      });
+    }
+    if (result.applicants.includes(userId)) {
+      return res.status(400).json({
+        success: false,
+        message: "You have already applied fot this job",
+      });
+    }
+    result.applicants.push(userId);
+    result.save().then((result) => {
+      res.status(201).json({
+        success: true,
+        message: "Successfully applied for the job",
+        jobPost: result,
+      });
+    });
+  }).catch((err) => {
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: err.message,
+    });
+  });
+};
+
 module.exports = {
   createNewJobPost,
   getAllJobPosts,
   getJobPostById,
   updateJobPostById,
   deleteJobPostById,
+  applyForJob,
 };
