@@ -5,6 +5,7 @@ const {
     createNewJobPost,
     getAllJobPosts,
     getJobPostById,
+    updateJobPostById,
 } = require("../controllers/jobs");
 
 // Create jobs Router
@@ -13,5 +14,6 @@ const jobsRouter = express.Router();
 jobsRouter.post("/", createNewJobPost);
 jobsRouter.get("/", getAllJobPosts);
 jobsRouter.get("/:id", getJobPostById);
+jobsRouter.put("/:id", updateJobPostById);
 
 module.exports = jobsRouter;
