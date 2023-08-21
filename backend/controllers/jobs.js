@@ -59,7 +59,7 @@ const getAllJobPosts = (req, res) => {
 
 // this function returns a job post by its id
 const getJobPostById = (req, res) => {
-  let id = req.params.id;
+  const id = req.params.id;
   jobsModel
     .findById(id)
     .populate("company", "firstName lastName country -_id")
