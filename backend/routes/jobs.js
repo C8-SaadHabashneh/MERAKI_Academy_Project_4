@@ -16,7 +16,7 @@ const jobsRouter = express.Router();
 jobsRouter.post("/", authentication , createNewJobPost);
 jobsRouter.get("/", getAllJobPosts);
 jobsRouter.get("/:id", getJobPostById);
-jobsRouter.put("/:id", authentication , updateJobPostById);
-jobsRouter.delete("/:id", deleteJobPostById);
+jobsRouter.put("/:id", authentication, updateJobPostById);
+jobsRouter.delete("/:id", authentication, deleteJobPostById);
 
 module.exports = jobsRouter;
