@@ -20,7 +20,32 @@ const createNewJobPost = (req, res) => {
     });
 };
 
+// this function renders all job posts
+const getAllJobPosts = (req, res) => {
+    jobsModel.find().then((result) => {
+        if (result.length) {
+            res.status(200).json({
+                success: true,
+                message: "All the jobs",
+                jobs: result,
+            });
+        }
+        else {
+            res.status(200).json({
+                success: false,
+                message: "No Jobs yet",
+            });
+        }
+    }).catch((err) => {
+        res.status(500).json({
+            success: false,
+            message: "Server Error",
+            error: err,
+        });
+    });
+};
+
 module.exports = {
     createNewJobPost,
-
+    getAllJobPosts,
 };
