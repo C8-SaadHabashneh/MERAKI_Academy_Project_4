@@ -1,4 +1,5 @@
 const usersModel = require("../models/users");
+const profilesModel = require("../models/profiles");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
@@ -28,24 +29,29 @@ const register = (req, res) => {
     newUser
     .save()
     .then((result) => {
-        res.status(201).json({
-        success: true,
-        message: "Account created successfully",
-        account: result,
+        const newProfile = new profilesModel({
+            user: result._id,
         });
-    })
-    .catch((err) => {
+        newProfile.save().then((profileResult) => {
+            res.status(201).json({
+                success: true,
+                message: "Account created successfully",
+                profile: profileResult,
+            });
+        });
+    }).catch((err) => {
         if (err.keyPattern) {
-        return res.status(409).json({
-            success: false,
-            message: "The email already exists",
-        });
-        } else {
-        res.status(500).json({
-            success: false,
-            message: "Server Error",
-            err: err.message,
-        });
+            return res.status(409).json({
+                success: false,
+                message: "The email already exists",
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                message: "Server Error",
+                error: err.message,
+            });
         }
     });
 };
