@@ -1,5 +1,6 @@
 const profilesModel = require("../models/profiles");
 
+// this function returns a profile by its id
 const getProfileById = (req, res) => {
     const id = req.params.id;
     profilesModel.findById(id).populate("user", "-_id -dateOfBirth -password -role").exec().then((result) => {
