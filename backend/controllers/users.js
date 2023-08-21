@@ -1,7 +1,7 @@
 const usersModel = require("../models/users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const SECRET = require(process.env.SECRET);
+const secret = process.env.SECRET;
 
 // this function registers a user
 const register = (req, res) => {
@@ -81,7 +81,7 @@ const login = (req, res) => {
         const options = {
             expiresIn: "12h",
         };
-        const token = jwt.sign(payload, SECRET, options);
+        const token = jwt.sign(payload, secret, options);
         res.status(200).json({
             success: true,
             message: "Valid login credentials",

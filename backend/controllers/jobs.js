@@ -20,9 +20,9 @@ const createNewJobPost = (req, res) => {
     });
 };
 
-// this function renders all job posts
+// this function returns all job posts
 const getAllJobPosts = (req, res) => {
-    jobsModel.find().then((result) => {
+    jobsModel.find().populate("company", "firstName lastName country -_id").exec().then((result) => {
         if (result.length) {
             res.status(200).json({
                 success: true,
@@ -45,7 +45,34 @@ const getAllJobPosts = (req, res) => {
     });
 };
 
+// this function returns a job post by its id
+const getJobPostById = (req, res) => {
+    let id = req.params.id;
+    jobsModel.findById(id).populate("company", "firstName lastName country -_id").exec().then((result) => {
+        if (!result) {
+            res.status(404).json({
+                success: false,
+                message: `The Job post with id => ${id} isn't found`,
+            });
+        }
+        else {
+            res.status(200).json({
+                success: true,
+                message: `The Job post ${id}`,
+                jobPost: result,
+            });
+        }
+    }).catch((err) => {
+        res.status(500).json({
+            success: false,
+            message: "Server Error",
+            error: err.message,
+        });
+    });
+};
+
 module.exports = {
     createNewJobPost,
     getAllJobPosts,
+    getJobPostById,
 };
