@@ -7,7 +7,7 @@ const {
 } = require("../controllers/profiles");
 
 // Create profiles Routers
-profilesRouter = express.Router();
+const profilesRouter = express.Router();
 
 profilesRouter.get("/:id", getProfileById);
 
