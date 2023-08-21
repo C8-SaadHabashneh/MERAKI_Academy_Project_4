@@ -178,6 +178,40 @@ const applyForJob = (req, res) => {
   });
 };
 
+// this function lets a company see the applicants for a job
+const getApplicantsForJob = (req, res) => {
+  const jobId = req.params.id;
+  const companyId = req.token.userId;
+  jobsModel.findById(jobId).populate('applicants', 'firstName lastName country phoneNumber email -_id').then((result) => {
+      if (!result) {
+          return res.status(404).json({
+              success: false,
+              message: `The Job post with id => ${jobId} isn't found`,
+          });
+      }
+
+      // check if the company owns the job post
+      if (result.company.toString() !== companyId) {
+          return res.status(403).json({
+              success: false,
+              message: "Unauthorized",
+          });
+      }
+
+      res.status(200).json({
+          success: true,
+          message: `Applicants for the job post ${jobId}`,
+          applicants: result.applicants,
+      });
+  }).catch((err) => {
+      res.status(500).json({
+          success: false,
+          message: "Server Error",
+          error: err.message,
+      });
+  });
+};
+
 module.exports = {
   createNewJobPost,
   getAllJobPosts,
@@ -185,4 +219,5 @@ module.exports = {
   updateJobPostById,
   deleteJobPostById,
   applyForJob,
+  getApplicantsForJob,
 };
