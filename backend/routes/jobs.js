@@ -8,6 +8,7 @@ const {
     updateJobPostById,
     deleteJobPostById,
     applyForJob,
+    getApplicantsForJob,
 } = require("../controllers/jobs");
 
 const authentication = require("../middlewares/authentication");
@@ -22,5 +23,6 @@ jobsRouter.get("/:id", getJobPostById);
 jobsRouter.put("/:id", authentication, authorization("UPDATE_JOB_POSTS"), updateJobPostById);
 jobsRouter.delete("/:id", authentication, authorization("DELETE_JOB_POSTS"), deleteJobPostById);
 jobsRouter.post("/:id/apply", authentication, authorization("APPLY"), applyForJob);
+jobsRouter.get("/:id/applicants", authentication, authorization("SEE_APPLICANTS"), getApplicantsForJob);
 
 module.exports = jobsRouter;
