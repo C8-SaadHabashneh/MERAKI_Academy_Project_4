@@ -5,11 +5,12 @@ const {
     getProfileById,
     updateProfileById,
 } = require("../controllers/profiles");
+const authentication = require("../middlewares/authentication");
 
 // Create profiles Routers
 const profilesRouter = express.Router();
 
-profilesRouter.get("/:id", getProfileById);
-profilesRouter.put("/:id", updateProfileById);
+profilesRouter.get("/:id", authentication, getProfileById);
+profilesRouter.put("/:id", authentication, updateProfileById);
 
 module.exports = profilesRouter;
