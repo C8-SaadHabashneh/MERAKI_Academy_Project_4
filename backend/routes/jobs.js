@@ -8,11 +8,12 @@ const {
     updateJobPostById,
     deleteJobPostById,
 } = require("../controllers/jobs");
+const authentication = require("../middlewares/authentication");
 
 // Create jobs Router
 const jobsRouter = express.Router();
 
-jobsRouter.post("/", createNewJobPost);
+jobsRouter.post("/", authentication , createNewJobPost);
 jobsRouter.get("/", getAllJobPosts);
 jobsRouter.get("/:id", getJobPostById);
 jobsRouter.put("/:id", updateJobPostById);
