@@ -1,0 +1,21 @@
+.landing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+}
+
+.landing-card {
+    width: 70%; 
+    padding: 2rem;
+    box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    margin-bottom: 0.5cm;
+    color: #0FECE3;
+}
+
+.card-image {
+    width: 100%;
+}
