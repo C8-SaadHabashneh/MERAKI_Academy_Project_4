@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
 
 const Register = () => {
+  const navigate = useNavigate();
 
   const [message, setMessage] = useState(null);
   const [firstName, setFirstName] = useState();
@@ -24,6 +26,7 @@ const Register = () => {
     axios.post('http://localhost:5000/users/register', user)
       .then((response) => {
         setMessage({ data: response.data.message, status: 'success' });
+        navigate("/Login");
       }).catch((error) => {
         setMessage({ data: error.response.data.message, status: 'error' });
       });
