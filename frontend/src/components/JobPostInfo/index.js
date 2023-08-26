@@ -1,7 +1,7 @@
 import "./style.css";
 import React, { useState, useEffect, useContext } from 'react';
 import axios from "axios";
-import { AppContext } from "./context";
+import { AppContext } from "../../context";
 
 const JobPostInfo = ({ jobId }) => {
   const { token } = useContext(AppContext);
