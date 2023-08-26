@@ -1,10 +1,11 @@
-import React, {useState} from "react";
 import "./style.css";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "./context";
 
 const Login = () => {
-
+  const { setToken } = useContext(AppContext);
   const [message, setMessage] = useState(null);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -16,6 +17,7 @@ const Login = () => {
     axios.post("http://localhost:5000/users/login", user)
       .then((response) => {
         setMessage({data: response.message, status: "success"});
+        setToken(response.data.token);
         localStorage.setItem('token', response.data.token);
         navigate("/AllJobs");
       }).catch((error) => {

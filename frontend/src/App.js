@@ -9,10 +9,11 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import JobPostInfo from "./components/JobPostInfo";
 
-
 function App() {
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+
   return (
-    <AppContext.Provider value>
+    <AppContext.Provider value={{token, setToken}}>
       <div className="App">
         <NavBar />
         <Routes>
