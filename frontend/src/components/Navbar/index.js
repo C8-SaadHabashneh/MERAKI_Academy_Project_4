@@ -14,6 +14,7 @@ const NavBar = () => {
       </div>
       <div className='navbar-menu'>
       {location.pathname !== '/AllJobs' && <Link to="/AllJobs" className='navbar-item'>Jobs</Link>}
+      {token && token.role === 'company' && <Link to="/PostJob" className='navbar-item'>Post Job</Link>}
         {token ? (
           <>
             <Link to="/Profile" className='navbar-item'>Profile</Link>
