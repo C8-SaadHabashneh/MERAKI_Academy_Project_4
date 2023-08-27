@@ -57,6 +57,28 @@ const getAllJobPosts = (req, res) => {
     });
 };
 
+// this function returns all job posts that has a title that includes the input from the search bar
+const findJobs = (req, res) => {
+  const { title } = req.query;
+  const titleRegex = new RegExp(title, 'i'); // 'i' makes it case insensitive
+
+  jobsModel.find({ title: titleRegex })
+    .then((foundJobs) => {
+      res.status(200).json({
+        success: true,
+        message: "All the jobs",
+        jobs: foundJobs,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: err.message,
+      });
+    });
+};
+
 // this function returns a job post by its id
 const getJobPostById = (req, res) => {
   const id = req.params.id;
@@ -215,6 +237,7 @@ const getApplicantsForJob = (req, res) => {
 module.exports = {
   createNewJobPost,
   getAllJobPosts,
+  findJobs,
   getJobPostById,
   updateJobPostById,
   deleteJobPostById,
