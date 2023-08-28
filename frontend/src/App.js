@@ -8,6 +8,7 @@ import AllJobs from "./components/AllJobs";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import JobPostInfo from "./components/JobPostInfo";
+import Profile from "./components/Profile";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
@@ -21,6 +22,8 @@ function App() {
         <Route path="/AllJobs" element={<AllJobs />}></Route>
         <Route path="/Login" element={<Login />}></Route>
         <Route path="/Register" element={<Register />}></Route>
+        <Route path="/JobPostInfo/:id" element={<JobPostInfo />}></Route>
+        <Route path="/Profile/:userId" element={<Profile />}></Route>
         </Routes>
       </div>
     </AppContext.Provider>
