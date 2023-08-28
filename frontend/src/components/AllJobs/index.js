@@ -30,7 +30,7 @@ const AllJobs = () => {
   return (
     <div>
       <input type='text' placeholder='Search jobs...' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-      <button onClick={fetchJobs}>Search</button>
+      <button onClick={getJobs}>Search</button>
       {jobs.map(job => (
         <div key={job._id}>
           <h2>{job.title}</h2>
