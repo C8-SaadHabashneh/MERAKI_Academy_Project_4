@@ -2,6 +2,8 @@ import "./style.css";
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { AppContext } from "../../context";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const PostJob = () => {
   const [title, setTitle] = useState("");
@@ -25,20 +27,20 @@ const PostJob = () => {
   };
 
   return (
-    <div className="postDiv">
-    <span>Post a Job:</span><br/><br/>
-    <div className="form-group">
-      <input type='text' placeholder='Title' className="form-item" onChange={(e) => setTitle(e.target.value)} /><br/>
-      <textarea placeholder='Job Description' className="form-item" onChange={(e) => setJobDescription(e.target.value)}></textarea><br/>
-      <textarea placeholder='Job Requirements' className="form-item" onChange={(e) => setJobRequirements(e.target.value)}></textarea><br/>
-    </div>
-    {message && (
-      <div className={`${message.status}`}>
-        {message.data}
-      </div>
-    )}<br/>
-    <button className='postBtn' onClick={postJobHandler}>Post Job</button><br/>
-  </div>
+    <Form className="postDiv">
+      <Form.Group>
+        <Form.Label>Post a Job:</Form.Label><br/>
+        <Form.Control type='text' placeholder='Title' className="form-item" onChange={(e) => setTitle(e.target.value)} /><br/>
+        <Form.Control as="textarea" placeholder='Job Description' className="form-item" onChange={(e) => setJobDescription(e.target.value)}/><br/>
+        <Form.Control as="textarea" placeholder='Job Requirements' className="form-item" onChange={(e) => setJobRequirements(e.target.value)}/><br/>
+      </Form.Group>
+      {message && (
+        <div className={`${message.status}`}>
+          {message.data}
+        </div>
+      )}<br/>
+      <Button className='postBtn' onClick={postJobHandler}>Post Job</Button><br/>
+    </Form>
   )
 };
 

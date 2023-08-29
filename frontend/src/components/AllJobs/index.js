@@ -3,7 +3,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { AppContext } from "../../context";
-
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const AllJobs = () => {
   const { token } = useContext(AppContext);
@@ -29,24 +31,28 @@ const AllJobs = () => {
 
   return (
     <div>
-      <input type='text' placeholder='Search jobs...' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-      <button onClick={getJobs}>Search</button>
+      <Form inline>
+        <Form.Control style={{ width: '90%' }} type='text' placeholder='Search jobs...' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+        <Button style={{ width: '10%' }} onClick={getJobs}>Search</Button>
+      </Form>
       {jobs.map(job => (
-        <div key={job._id}>
-          <h2>{job.title}</h2>
-          <span>{job.location}</span>
-          <Link to={`/JobPostInfo/${job._id}`}>View Job</Link>
-        </div>
+        <Card key={job._id}>
+          <Card.Body>
+            <Card.Title>{job.title}</Card.Title>
+            <Card.Text>{job.location}</Card.Text>
+            <Button as={Link} to={`/JobPostInfo/${job._id}`}>View Job</Button>
+          </Card.Body>
+        </Card>
       ))}
       <div>
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
-          <button key={pageNumber} onClick={() => setCurrentPage(pageNumber)}>
+          <Button key={pageNumber} onClick={() => setCurrentPage(pageNumber)}>
             {pageNumber}
-          </button>
+          </Button>
         ))}
       </div>
     </div>
-  );
+  )
 };
 
 export default AllJobs;

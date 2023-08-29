@@ -3,6 +3,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../../context";
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const Profile = () => {
   const { token } = useContext(AppContext);
@@ -65,40 +68,44 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <Card>
       {profile && (
         <>
           {isEditing ? (
-            <div>
-              <input type="text" value={updatedName} onChange={(e) => setUpdatedName(e.target.value)} />
-              <input type="email" value={updatedEmail} onChange={(e) => setUpdatedEmail(e.target.value)} />
-              <input type="tel" value={updatedMobile} onChange={(e) => setUpdatedMobile(e.target.value)} />
-              <input type="text" value={updatedProfession} onChange={(e) => setUpdatedProfession(e.target.value)} />
-              <input type="text" value={updatedEducation} onChange={(e) => setUpdatedEducation(e.target.value)} />
-              <input type="text" value={updatedSkills} onChange={(e) => setUpdatedSkills(e.target.value)} />
-              <textarea value={updatedAbout} onChange={(e) => setUpdatedAbout(e.target.value)} />
-              <button onClick={handleSaveChanges}>Save Changes</button>
-            </div>
+            <Form>
+              <Form.Group>
+                <Form.Control type="text" value={updatedName} onChange={(e) => setUpdatedName(e.target.value)} />
+                <Form.Control type="email" value={updatedEmail} onChange={(e) => setUpdatedEmail(e.target.value)} />
+                <Form.Control type="tel" value={updatedMobile} onChange={(e) => setUpdatedMobile(e.target.value)} />
+                <Form.Control type="text" value={updatedProfession} onChange={(e) => setUpdatedProfession(e.target.value)} />
+                <Form.Control type="text" value={updatedEducation} onChange={(e) => setUpdatedEducation(e.target.value)} />
+                <Form.Control type="text" value={updatedSkills} onChange={(e) => setUpdatedSkills(e.target.value)} />
+                <Form.Control as="textarea" value={updatedAbout} onChange={(e) => setUpdatedAbout(e.target.value)} />
+              </Form.Group>
+              <Button onClick={handleSaveChanges}>Save Changes</Button>
+            </Form>
           ) : (
             <>
-              <h2>{profile.name}</h2>
-              <p>Email: {profile.email}</p>
-              <p>Mobile: {profile.mobile}</p>
-              <p>Profession: {profile.profession}</p>
-              <p>Education: {profile.education}</p>
-              <p>Skills: {profile.skills}</p>
-              <p>About: {profile.about}</p>
-              {token.userId === profile.userId && (
-                <>
-                  <button onClick={() => setIsEditing(true)}>Edit Profile</button>
-                </>
-              )}
+              <Card.Header>{profile.name}</Card.Header>
+              <Card.Body>
+                <Card.Text>Email: {profile.email}</Card.Text>
+                <Card.Text>Mobile: {profile.mobile}</Card.Text>
+                <Card.Text>Profession: {profile.profession}</Card.Text>
+                <Card.Text>Education: {profile.education}</Card.Text>
+                <Card.Text>Skills: {profile.skills}</Card.Text>
+                <Card.Text>About: {profile.about}</Card.Text>
+                {token.userId === profile.userId && (
+                  <>
+                    <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
+                  </>
+                )}
+              </Card.Body>
             </>
           )}
         </>
       )}
-    </div>
-  );
+    </Card>
+  )
 };
 
 export default Profile

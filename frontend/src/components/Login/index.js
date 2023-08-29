@@ -3,6 +3,8 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const Login = () => {
   const { setToken } = useContext(AppContext);
@@ -26,19 +28,19 @@ const Login = () => {
   };
 
   return (
-    <div className="loginDiv">
-      <span>Login:</span><br/><br/>
-      <div className="form-group">
-        <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)}/><br/>
-        <input type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)}/><br/>
-      </div>
+    <Form className="loginDiv">
+      <Form.Group>
+        <Form.Label>Login:</Form.Label><br/>
+        <Form.Control type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} /><br/>
+        <Form.Control type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} /><br/>
+      </Form.Group>
       {message && (
         <div className={`${message.status}`}>
           {message.data}
         </div>
       )}<br/>
-      <button className='loginBtn' onClick={loginHandler}>Login</button><br/>
-    </div>
+      <Button className='loginBtn' onClick={loginHandler}>Login</Button><br/>
+    </Form>
   )
 };
 

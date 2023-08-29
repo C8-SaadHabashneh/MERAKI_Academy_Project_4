@@ -2,15 +2,22 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow: hidden;
 }
 
 .App {
   text-align: center;
-  background-color: #121116;
   height: 100vh;
 }
 
 button:hover {
   cursor: pointer;
+}
+
+body {
+  background-color: #121212;
+  color: #eee;
+}
+
+a {
+  color: #809fff;
 }

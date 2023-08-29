@@ -3,6 +3,9 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { AppContext } from "../../context";
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const JobPostInfo = () => {
   const { token } = useContext(AppContext);
@@ -106,54 +109,50 @@ const JobPostInfo = () => {
   };
 
   return (
-    <div>
+    <Card>
       {jobPost && (
         <>
           {isEditing ? (
-            <div>
-              <input
-                type="text"
-                value={updatedTitle}
-                onChange={(e) => setUpdatedTitle(e.target.value)}
-              />
-              <textarea
-                value={updatedJobDescription}
-                onChange={(e) => setUpdatedJobDescription(e.target.value)}
-              />
-              <textarea
-                value={updatedJobRequirements}
-                onChange={(e) => setUpdatedJobRequirements(e.target.value)}
-              />
-              <button onClick={handleUpdatePost}>Submit Changes</button>
-            </div>
+            <Form>
+              <Form.Group>
+                <Form.Control type="text" value={updatedTitle} onChange={(e) => setUpdatedTitle(e.target.value)} />
+                <Form.Control as="textarea" value={updatedJobDescription} onChange={(e) => setUpdatedJobDescription(e.target.value)} />
+                <Form.Control as="textarea" value={updatedJobRequirements} onChange={(e) => setUpdatedJobRequirements(e.target.value)} />
+              </Form.Group>
+              <Button onClick={handleUpdatePost}>Submit Changes</Button>
+            </Form>
           ) : (
             <>
-              <h2>{jobPost.title}</h2>
-              <span>{jobPost.location}</span>
-              <p>{jobPost.jobDescription}</p>
-              <p>{jobPost.jobRequirements}</p>
-              {token.role === 'USER' && <button onClick={handleApply}>Apply</button>}
-              {token.userId === jobPost.company && (
-                <>
-                  <button onClick={handleShowApplicants}>Applicants</button>
-                  <button onClick={() => setIsEditing(true)}>Update Post</button>
-                  <button onClick={handleDeletePost}>Delete Post</button>
-                </>
-              )}
+              <Card.Header>{jobPost.title}</Card.Header>
+              <Card.Body>
+                <Card.Text>{jobPost.location}</Card.Text>
+                <Card.Text>{jobPost.jobDescription}</Card.Text>
+                <Card.Text>{jobPost.jobRequirements}</Card.Text>
+                {token.role === 'USER' && <Button onClick={handleApply}>Apply</Button>}
+                {token.userId === jobPost.company && (
+                  <>
+                    <Button onClick={handleShowApplicants}>Show Applicants</Button>
+                    <Button onClick={() => setIsEditing(true)}>Update Post</Button>
+                    <Button onClick={handleDeletePost}>Delete Post</Button>
+                  </>
+                )}
+              </Card.Body>
             </>
           )}
           {applicants.map((applicant) => (
-            <div key={applicant._id}>
-              <h3>{applicant.firstName} {applicant.lastName}</h3>
-              <p>Country: {applicant.country}</p>
-              <p>Phone Number: {applicant.phoneNumber}</p>
-              <p>Email: {applicant.email}</p>
-            </div>
+            <Card key={applicant._id}>
+              <Card.Header>{applicant.firstName} {applicant.lastName}</Card.Header>
+              <Card.Body>
+                <Card.Text>Country: {applicant.country}</Card.Text>
+                <Card.Text>Phone Number: {applicant.phoneNumber}</Card.Text>
+                <Card.Text>Email: {applicant.email}</Card.Text>
+              </Card.Body>
+            </Card>
           ))}
         </>
       )}
-    </div>
-  );
+    </Card>
+  )
 };
 
 export default JobPostInfo;

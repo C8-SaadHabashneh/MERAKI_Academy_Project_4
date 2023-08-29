@@ -2,32 +2,32 @@ import "./style.css";
 import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AppContext } from "../../context";
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
 const NavBar = () => {
   const location = useLocation();
   const { token } = useContext(AppContext);
 
   return (
-    <div className='navbar'>
-      <div className='logoDiv'>
-        <Link to="/" className='logoLink'>Recruiter Inc</Link>
-      </div>
-      <div className='navbar-menu'>
-      {location.pathname !== '/AllJobs' && <Link to="/AllJobs" className='navbar-item'>Jobs</Link>}
-      {token && token.role === 'COMPANY' && <Link to="/PostJob" className='navbar-item'>Post Job</Link>}
+    <Navbar bg="dark" variant="dark" className="justify-content-between">
+      <Navbar.Brand as={Link} to="/">Recruiter Inc</Navbar.Brand>
+      <Nav className="ml-auto">
+        {location.pathname !== '/AllJobs' && <Nav.Link as={Link} to="/AllJobs">Jobs</Nav.Link>}
+        {token && token.role === 'COMPANY' && <Nav.Link as={Link} to="/PostJob">Post Job</Nav.Link>}
         {token ? (
           <>
-            <Link to="/Profile" className='navbar-item'>Profile</Link>
-            <button onClick={() => {localStorage.removeItem('token'); window.location.reload();}} className='navbar-item'>Logout</button>
+            <Nav.Link as={Link} to="/Profile">Profile</Nav.Link>
+            <Nav.Link onClick={() => {localStorage.removeItem('token'); window.location.reload();}}>Logout</Nav.Link>
           </>
         ) : (
           <>
-            <Link to="/Login" className='navbar-item'>Login</Link>
-            <Link to="/Register" className='navbar-item'>Register</Link>
+            <Nav.Link as={Link} to="/Login">Login</Nav.Link>
+            <Nav.Link as={Link} to="/Register">Register</Nav.Link>
           </>
         )}
-      </div>
-    </div>
+      </Nav>
+    </Navbar>
   )
 };
 
