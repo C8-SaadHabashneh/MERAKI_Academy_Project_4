@@ -1,5 +1,5 @@
 import "./style.css";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context";
@@ -13,6 +13,12 @@ const Login = () => {
   const [password, setPassword] = useState();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (message && message.status === "success") {
+      navigate("/AllJobs");
+    }
+  }, [message, navigate])
+
   const loginHandler = () => {
     const user = {email, password};
 
@@ -20,8 +26,9 @@ const Login = () => {
       .then((response) => {
         setMessage({data: response.message, status: "success"});
         setToken(response.data.token);
-        localStorage.setItem('token', response.data.token);
-        navigate("/AllJobs");
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("role", response.data.role);
+        localStorage.setItem("userId", response.data.userId);
       }).catch((error) => {
         setMessage({data: error.response.message, status: "error"});
       });

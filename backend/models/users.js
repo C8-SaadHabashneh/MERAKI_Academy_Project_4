@@ -7,7 +7,7 @@ const usersModel = new mongoose.Schema({
     phoneNumber: {type: Number, required: true},
     dateOfBirth: {type: Date, required: true},
     country: {type: String, required: true},
-    email: {type: String, required: true},
+    email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     role: {type: mongoose.Schema.Types.ObjectId, ref: "Role", required: true},
 });

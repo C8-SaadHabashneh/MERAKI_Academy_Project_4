@@ -92,6 +92,8 @@ const login = (req, res) => {
             success: true,
             message: "Valid login credentials",
             token: token,
+            role: result.role.role,
+            userId: result._id,
         });
         } catch (error) {
         throw new Error(error.message);

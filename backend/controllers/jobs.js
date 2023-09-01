@@ -211,15 +211,12 @@ const getApplicantsForJob = (req, res) => {
               message: `The Job post with id => ${jobId} isn't found`,
           });
       }
-
-      // check if the company owns the job post
       if (result.company.toString() !== companyId) {
           return res.status(403).json({
               success: false,
               message: "Unauthorized",
           });
       }
-
       res.status(200).json({
           success: true,
           message: `Applicants for the job post ${jobId}`,

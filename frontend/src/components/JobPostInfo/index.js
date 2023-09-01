@@ -128,7 +128,7 @@ const JobPostInfo = () => {
                 <Card.Text>{jobPost.location}</Card.Text>
                 <Card.Text>{jobPost.jobDescription}</Card.Text>
                 <Card.Text>{jobPost.jobRequirements}</Card.Text>
-                {token.role === 'USER' && <Button onClick={handleApply}>Apply</Button>}
+                {token.role === "USER" && <Button onClick={handleApply}>Apply</Button>}
                 {token.userId === jobPost.company && (
                   <>
                     <Button onClick={handleShowApplicants}>Show Applicants</Button>

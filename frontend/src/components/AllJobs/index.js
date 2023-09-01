@@ -15,7 +15,7 @@ const AllJobs = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const getJobs = () => {
-    axios.get(`http://localhost:5000/jobs/search?title=${searchQuery}&page=${currentPage}&limit=10`, {
+    axios.get(`http://localhost:5000/jobs/search?title=${searchQuery}&page=${currentPage}&limit=5`, {
       headers: {
         "Authorization": `Bearer ${token}`
       }

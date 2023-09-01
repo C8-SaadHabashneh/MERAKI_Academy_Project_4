@@ -1,5 +1,5 @@
 import "./style.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Form from 'react-bootstrap/Form';
@@ -18,6 +18,12 @@ const Register = () => {
   const [password, setPassword] = useState();
   const [role, setRole] = useState();
 
+  useEffect(() => {
+    if (message && message.status === 'success') {
+      navigate("/Login");
+    }
+  }, [message, navigate]);
+
   const roleHandler = (e) => {
     setRole(e.target.value)
   };
@@ -28,7 +34,6 @@ const Register = () => {
     axios.post('http://localhost:5000/users/register', user)
       .then((response) => {
         setMessage({ data: response.data.message, status: 'success' });
-        navigate("/Login");
       }).catch((error) => {
         setMessage({ data: error.response.data.message, status: 'error' });
       });
