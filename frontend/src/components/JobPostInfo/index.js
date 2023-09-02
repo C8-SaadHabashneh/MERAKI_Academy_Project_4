@@ -17,6 +17,7 @@ const JobPostInfo = () => {
   const [updatedTitle, setUpdatedTitle] = useState("");
   const [updatedJobDescription, setUpdatedJobDescription] = useState("");
   const [updatedJobRequirements, setUpdatedJobRequirements] = useState("");
+  const role = localStorage.getItem('role');
 
   useEffect(() => {
     axios
@@ -63,7 +64,7 @@ const JobPostInfo = () => {
         },
       })
       .then((response) => {
-        setApplicants(response.data);
+        setApplicants(response.data.applicants);
       })
       .catch((err) => {
         console.error("Error fetching applicants", err);
@@ -128,8 +129,8 @@ const JobPostInfo = () => {
                 <Card.Text>{jobPost.location}</Card.Text>
                 <Card.Text>{jobPost.jobDescription}</Card.Text>
                 <Card.Text>{jobPost.jobRequirements}</Card.Text>
-                {token.role === "USER" && <Button onClick={handleApply}>Apply</Button>}
-                {token.userId === jobPost.company && (
+                {token && role === "USER" && <Button onClick={handleApply}>Apply</Button>}
+                {token && role === "COMPANY" && token.userId === jobPost.company && (
                   <>
                     <Button onClick={handleShowApplicants}>Show Applicants</Button>
                     <Button onClick={() => setIsEditing(true)}>Update Post</Button>
