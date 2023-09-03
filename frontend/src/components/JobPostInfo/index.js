@@ -85,9 +85,8 @@ const JobPostInfo = () => {
         },
       })
       .then((response) => {
-        
         console.log("Job post updated successfully");
-        setJobPost(response.data);
+        setJobPost(response.data.jobPost);
         setIsEditing(false);
       })
       .catch((err) => {
