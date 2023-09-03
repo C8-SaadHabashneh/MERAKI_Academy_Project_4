@@ -150,6 +150,7 @@ const JobPostInfo = () => {
               <Card.Header>{applicant.firstName} {applicant.lastName}</Card.Header>
               <Card.Body>
                 <Card.Text>Country: {applicant.country}</Card.Text>
+                <Card.Text>Skills: {applicant.skills}</Card.Text>
                 <Card.Text>Phone Number: {applicant.phoneNumber}</Card.Text>
                 <Card.Text>Email: {applicant.email}</Card.Text>
               </Card.Body>

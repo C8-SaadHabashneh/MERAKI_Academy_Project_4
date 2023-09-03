@@ -14,6 +14,7 @@ const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState();
   const [dateOfBirth, setDateOfBirth] = useState();
   const [country, setCountry] = useState();
+  const [skills, setSkills] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [role, setRole] = useState();
@@ -29,7 +30,7 @@ const Register = () => {
   };
 
   const registerHandler = () => {
-    const user = {firstName, lastName, phoneNumber, dateOfBirth, country, email, password, role};
+    const user = {firstName, lastName, phoneNumber, dateOfBirth, country, skills, email, password, role};
 
     axios.post('http://localhost:5000/users/register', user)
       .then((response) => {
@@ -48,6 +49,7 @@ const Register = () => {
         <Form.Control type='tel' placeholder='Phone Number' onChange={(e) => setPhoneNumber(e.target.value)} /><br/>
         <Form.Control type='date' placeholder='Date of Birth' onChange={(e) => setDateOfBirth(e.target.value)} /><br/>
         <Form.Control type='text' placeholder='Country' onChange={(e) => setCountry(e.target.value)} /><br/>
+        <Form.Control type='text' placeholder='Skills' onChange={(e) => setSkills(e.target.value)} /><br/>
         <Form.Control type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} /><br/>
         <Form.Control type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} /><br/>
         <Form.Control as="select" onChange={roleHandler}>

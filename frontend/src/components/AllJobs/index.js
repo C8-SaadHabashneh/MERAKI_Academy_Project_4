@@ -21,7 +21,7 @@ const AllJobs = () => {
       }
     }).then((response) => {
       setJobs(response.data.jobs);
-      setTotalPages(response.data.totalPages);
+      setTotalPages(response.data.totalPages || 0);
     }).catch((err) => {
       console.log("Error fetching jobs", err);
     });
@@ -34,7 +34,7 @@ const AllJobs = () => {
       }
     }).then((response) => {
       setJobs(response.data.jobs);
-      setTotalPages(response.data.totalPages);
+      setTotalPages(response.data.totalPages || 0);
     }).catch((err) => {
       console.log("Error searching jobs", err);
     });
@@ -53,8 +53,8 @@ const AllJobs = () => {
         <Card className="jobCard" key={job._id}>
           <Card.Body>
             <Card.Title>{job.title}</Card.Title>
-            <Card.Subtitle className="mt-3 text-muted">{job.company.firstName} {job.company.lastName}</Card.Subtitle>
-            <Card.Subtitle className="mt-3 text-muted">{job.company.country}</Card.Subtitle>
+            <Card.Subtitle className="mt-3 text-muted">Company: {job.company.firstName} {job.company.lastName}</Card.Subtitle>
+            <Card.Subtitle className="mt-3 text-muted">Location: {job.company.country}</Card.Subtitle>
             <Button className="mt-3" as={Link} to={`/JobPostInfo/${job._id}`}>View Job</Button>
           </Card.Body>
         </Card>

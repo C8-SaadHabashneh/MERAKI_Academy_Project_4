@@ -1,5 +1,4 @@
 const usersModel = require("../models/users");
-const profilesModel = require("../models/profiles");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
@@ -7,39 +6,39 @@ const secret = process.env.SECRET;
 // this function registers a user
 const register = (req, res) => {
     const {
-    firstName,
-    lastName,
-    phoneNumber,
-    dateOfBirth,
-    country,
-    email,
-    password,
-    role,
+        firstName,
+        lastName,
+        phoneNumber,
+        dateOfBirth,
+        country,
+        skills,
+        email,
+        password,
+        role,
     } = req.body;
+
     const newUser = new usersModel({
-    firstName,
-    lastName,
-    phoneNumber,
-    dateOfBirth,
-    country,
-    email,
-    password,
-    role,
+        firstName,
+        lastName,
+        phoneNumber,
+        dateOfBirth,
+        country,
+        skills,
+        email,
+        password,
+        role,
     });
+
     newUser
     .save()
     .then((result) => {
-        const newProfile = new profilesModel({
-            user: result._id,
+        res.status(201).json({
+            success: true,
+            message: "Account created successfully",
+            user: result
         });
-        newProfile.save().then((profileResult) => {
-            res.status(201).json({
-                success: true,
-                message: "Account created successfully",
-                profile: profileResult,
-            });
-        });
-    }).catch((err) => {
+    })
+    .catch((err) => {
         if (err.keyPattern) {
             return res.status(409).json({
                 success: false,
@@ -111,11 +110,11 @@ const login = (req, res) => {
 // this function returns the user in the profile component
 const getUserById = (req, res) => {
     const userId = req.params.id
-    usersModel.findById({_id:userId}).then((response) =>{
+    usersModel.findById({_id:userId}).then((result) =>{
         res.status(200).json({
             success: true,
             message: `The profile ${userId}`,
-            profile: response,
+            profile: result,
         })
     }).catch((err) => {
         res.status(500).json({

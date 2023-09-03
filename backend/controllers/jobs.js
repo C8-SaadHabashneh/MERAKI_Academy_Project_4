@@ -53,6 +53,7 @@ const getAllJobPosts = (req, res) => {
           res.status(200).json({
             success: false,
             message: "No Jobs yet",
+            totalPages: 0,
           });
         }
       });
@@ -237,7 +238,7 @@ const getApplicantsForJob = (req, res) => {
   const companyId = req.token.userId;
   jobsModel
     .findById(jobId)
-    .populate("applicants", "firstName lastName country phoneNumber email -_id")
+    .populate("applicants", "firstName lastName country skills phoneNumber email -_id")
     .then((result) => {
       if (!result) {
         return res.status(404).json({
