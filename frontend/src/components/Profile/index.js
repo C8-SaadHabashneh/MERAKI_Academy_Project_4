@@ -21,12 +21,13 @@ const Profile = () => {
   const [updatedAbout, setUpdatedAbout] = useState('');
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/profiles/${userId}`, {
+    axios.get(`http://localhost:5000/users/user/${userId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     })
     .then(response => {
+      
       setProfile(response.data);
       setUpdatedName(response.data.name);
       setUpdatedEmail(response.data.email);
@@ -52,7 +53,7 @@ const Profile = () => {
       about: updatedAbout
     };
 
-    axios.put(`http://localhost:5000/profiles/${userId}`, updatedProfile, {
+    axios.put(`http://localhost:5000/users/${userId}`, updatedProfile, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -68,18 +69,25 @@ const Profile = () => {
   };
 
   return (
-    <Card>
+    <Card className="profileDiv">
       {profile && (
         <>
           {isEditing ? (
-            <Form>
+            <Form className="updateProfile">
               <Form.Group>
+                <span className="updateLabel">Full Name:</span>
                 <Form.Control type="text" value={updatedName} onChange={(e) => setUpdatedName(e.target.value)} />
+                <span className="updateLabel">Email:</span>
                 <Form.Control type="email" value={updatedEmail} onChange={(e) => setUpdatedEmail(e.target.value)} />
+                <span className="updateLabel">Mobile:</span>
                 <Form.Control type="tel" value={updatedMobile} onChange={(e) => setUpdatedMobile(e.target.value)} />
+                <span className="updateLabel">Profession:</span>
                 <Form.Control type="text" value={updatedProfession} onChange={(e) => setUpdatedProfession(e.target.value)} />
+                <span className="updateLabel">Education:</span>
                 <Form.Control type="text" value={updatedEducation} onChange={(e) => setUpdatedEducation(e.target.value)} />
+                <span className="updateLabel">Skills:</span>
                 <Form.Control type="text" value={updatedSkills} onChange={(e) => setUpdatedSkills(e.target.value)} />
+                <span className="updateLabel">About:</span>
                 <Form.Control as="textarea" value={updatedAbout} onChange={(e) => setUpdatedAbout(e.target.value)} />
               </Form.Group>
               <Button onClick={handleSaveChanges}>Save Changes</Button>
@@ -108,4 +116,4 @@ const Profile = () => {
   )
 };
 
-export default Profile
+export default Profile;

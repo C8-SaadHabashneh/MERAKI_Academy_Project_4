@@ -13,7 +13,7 @@ import PostJob from "./components/PostJob";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
-
+  
   return (
     <AppContext.Provider value={{token, setToken}}>
       <div className="App">

@@ -1,22 +1,8 @@
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
+.logo {
+    margin-left: 1%;
+    transition: all 0.3s ease;
 }
 
-.logoLink {
-    text-decoration: none;
-    font-size: 1.1rem;
-    color: #0FECE3;
-    
-}
-
-.navbar-menu {
-    display: flex;
-}
-
-.navbar-item {
-    margin-left: 1rem;
-    text-decoration: none;
-    color: #0FECE3;
+.logo:hover {
+    transform: scale(1.1);
 }

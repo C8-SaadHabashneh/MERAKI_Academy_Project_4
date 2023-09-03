@@ -1,28 +1,30 @@
 import "./style.css";
 import React, { useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from "../../context";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 
 const NavBar = () => {
-  const location = useLocation();
   const { token } = useContext(AppContext);
+  const { setToken } = useContext(AppContext);
   const role = localStorage.getItem("role");
   const userId = localStorage.getItem("userId");
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role"); 
     localStorage.removeItem("userId"); 
-    window.location.reload();
+    setToken(null);
+    navigate('/');
   };
 
   return (
     <Navbar bg="dark" variant="dark" className="justify-content-between">
-      <Navbar.Brand as={Link} to="/">Recruiter Inc</Navbar.Brand>
+      <Navbar.Brand className="logo" as={Link} to="/">Recruiter Inc</Navbar.Brand>
       <Nav className="ml-auto">
-        {location.pathname !== '/AllJobs' && <Nav.Link as={Link} to="/AllJobs">Jobs</Nav.Link>}
+        <Nav.Link as={Link} to="/AllJobs">Jobs</Nav.Link>
         {token && role === "COMPANY" && <Nav.Link as={Link} to="/PostJob">Post Job</Nav.Link>}
         {token ? (
           <>
@@ -40,4 +42,4 @@ const NavBar = () => {
   )
 };
 
-export default NavBar
+export default NavBar;

@@ -8,6 +8,11 @@
     margin: 0 auto;
     padding: 20px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.loginDiv:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 .loginDiv input[type='email'],

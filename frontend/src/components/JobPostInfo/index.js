@@ -18,6 +18,7 @@ const JobPostInfo = () => {
   const [updatedJobDescription, setUpdatedJobDescription] = useState("");
   const [updatedJobRequirements, setUpdatedJobRequirements] = useState("");
   const role = localStorage.getItem('role');
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     axios
@@ -27,10 +28,10 @@ const JobPostInfo = () => {
         },
       })
       .then((response) => {
-        setJobPost(response.data);
-        setUpdatedTitle(response.data.title);
-        setUpdatedJobDescription(response.data.jobDescription);
-        setUpdatedJobRequirements(response.data.jobRequirements);
+        setJobPost(response.data.jobPost);
+        setUpdatedTitle(response.data.jobPost.title);
+        setUpdatedJobDescription(response.data.jobPost.jobDescription);
+        setUpdatedJobRequirements(response.data.jobPost.jobRequirements);
       })
       .catch((err) => {
         console.error("Error fetching job post", err);
@@ -84,6 +85,7 @@ const JobPostInfo = () => {
         },
       })
       .then((response) => {
+        
         console.log("Job post updated successfully");
         setJobPost(response.data);
         setIsEditing(false);
@@ -110,14 +112,17 @@ const JobPostInfo = () => {
   };
 
   return (
-    <Card>
+    <Card className="jobInfo" style={{marginTop: "3%"}}>
       {jobPost && (
         <>
           {isEditing ? (
-            <Form>
+            <Form className="updatePostForm">
               <Form.Group>
+                <span className="updateLabel">Title:</span>
                 <Form.Control type="text" value={updatedTitle} onChange={(e) => setUpdatedTitle(e.target.value)} />
+                <span className="updateLabel">Job Description:</span>
                 <Form.Control as="textarea" value={updatedJobDescription} onChange={(e) => setUpdatedJobDescription(e.target.value)} />
+                <span className="updateLabel">Job Requirements:</span>
                 <Form.Control as="textarea" value={updatedJobRequirements} onChange={(e) => setUpdatedJobRequirements(e.target.value)} />
               </Form.Group>
               <Button onClick={handleUpdatePost}>Submit Changes</Button>
@@ -126,11 +131,11 @@ const JobPostInfo = () => {
             <>
               <Card.Header>{jobPost.title}</Card.Header>
               <Card.Body>
-                <Card.Text>{jobPost.location}</Card.Text>
-                <Card.Text>{jobPost.jobDescription}</Card.Text>
-                <Card.Text>{jobPost.jobRequirements}</Card.Text>
+                <Card.Text>Location: {jobPost.company.country}</Card.Text>
+                <Card.Text>Job Description: {jobPost.jobDescription}</Card.Text>
+                <Card.Text>Job Requirements: {jobPost.jobRequirements}</Card.Text>
                 {token && role === "USER" && <Button onClick={handleApply}>Apply</Button>}
-                {token && role === "COMPANY" && token.userId === jobPost.company && (
+                {token && role === "COMPANY" && userId === jobPost.company._id && (
                   <>
                     <Button onClick={handleShowApplicants}>Show Applicants</Button>
                     <Button onClick={() => setIsEditing(true)}>Update Post</Button>
@@ -141,7 +146,7 @@ const JobPostInfo = () => {
             </>
           )}
           {applicants.map((applicant) => (
-            <Card key={applicant._id}>
+            <Card key={applicant._id} className="JobInfo">
               <Card.Header>{applicant.firstName} {applicant.lastName}</Card.Header>
               <Card.Body>
                 <Card.Text>Country: {applicant.country}</Card.Text>

@@ -108,7 +108,26 @@ const login = (req, res) => {
     });
 };
 
+// this function returns the user in the profile component
+const getUserById = (req, res) => {
+    const userId = req.params.id
+    usersModel.findById({_id:userId}).then((response) =>{
+        res.status(200).json({
+            success: true,
+            message: `The profile ${userId}`,
+            profile: response,
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            success: false,
+            message: "Server Error",
+            error: err.message,
+        })
+    })
+};
+
 module.exports = {
     register,
     login,
+    getUserById,
 };

@@ -1,0 +1,24 @@
+.jobInfo {
+    display: flex;
+    width: 60%;
+    margin-left: 20%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.jobInfo button {
+    margin: 1%;
+}
+
+.jobInfo:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.updatePostForm {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.updateLabel {
+    color: rgb(60, 60, 245);
+}

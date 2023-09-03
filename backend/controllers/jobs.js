@@ -30,23 +30,32 @@ const createNewJobPost = (req, res) => {
 
 // this function returns all job posts
 const getAllJobPosts = (req, res) => {
+  const { page = 1, limit = 4 } = req.query;
+  const skip = (page - 1) * limit;
+
   jobsModel
     .find()
-    .populate("company", "firstName lastName country -_id")
+    .populate("company", "firstName lastName country _id")
+    .skip(skip)
+    .limit(limit)
     .exec()
     .then((result) => {
-      if (result.length) {
-        res.status(200).json({
-          success: true,
-          message: "All the jobs",
-          jobs: result,
-        });
-      } else {
-        res.status(200).json({
-          success: false,
-          message: "No Jobs yet",
-        });
-      }
+      jobsModel.countDocuments().then((count) => {
+        const totalPages = Math.ceil(count / limit);
+        if (result.length) {
+          res.status(200).json({
+            success: true,
+            message: "All the jobs",
+            jobs: result,
+            totalPages: totalPages,
+          });
+        } else {
+          res.status(200).json({
+            success: false,
+            message: "No Jobs yet",
+          });
+        }
+      });
     })
     .catch((err) => {
       res.status(500).json({
@@ -59,16 +68,35 @@ const getAllJobPosts = (req, res) => {
 
 // this function returns all job posts that has a title that includes the input from the search bar
 const findJobs = (req, res) => {
-  const { title } = req.query;
-  const titleRegex = new RegExp(title, 'i'); // 'i' makes it case insensitive
+  const { title, page = 1, limit = 4 } = req.query;
+  const titleRegex = new RegExp(title, "i");
+  const skip = (page - 1) * limit;
 
-  jobsModel.find({ title: titleRegex })
-    .then((foundJobs) => {
-      res.status(200).json({
-        success: true,
-        message: "All the jobs",
-        jobs: foundJobs,
-      });
+  jobsModel
+    .find({ title: titleRegex })
+    .populate("company", "firstName lastName country _id")
+    .skip(skip)
+    .limit(limit)
+    .exec()
+    .then((result) => {
+      jobsModel
+        .countDocuments({ title: titleRegex })
+        .then((count) => {
+          const totalPages = Math.ceil(count / limit);
+          if (result.length) {
+            res.status(200).json({
+              success: true,
+              message: "All the jobs",
+              jobs: result,
+              totalPages: totalPages,
+            });
+          } else {
+            res.status(200).json({
+              success: false,
+              message: "No Jobs yet",
+            });
+          }
+        });
     })
     .catch((err) => {
       res.status(500).json({
@@ -84,11 +112,11 @@ const getJobPostById = (req, res) => {
   const id = req.params.id;
   jobsModel
     .findById(id)
-    .populate("company", "firstName lastName country -_id")
+    .populate("company", "firstName lastName country _id")
     .exec()
     .then((result) => {
       if (!result) {
-        return  res.status(404).json({
+        return res.status(404).json({
           success: false,
           message: `The Job post with id => ${id} isn't found`,
         });
@@ -170,65 +198,72 @@ const deleteJobPostById = (req, res) => {
 const applyForJob = (req, res) => {
   const jobId = req.params.id;
   const userId = req.token.userId;
-  jobsModel.findById(jobId).then((result) => {
-    if (!result) {
-      return res.status(404).json({
-        success: false,
-        message: `The job post with id => ${jobId} isn't found`,
+  jobsModel
+    .findById(jobId)
+    .then((result) => {
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: `The job post with id => ${jobId} isn't found`,
+        });
+      }
+      if (result.applicants.includes(userId)) {
+        return res.status(400).json({
+          success: false,
+          message: "You have already applied fot this job",
+        });
+      }
+      result.applicants.push(userId);
+      result.save().then((result) => {
+        res.status(201).json({
+          success: true,
+          message: "Successfully applied for the job",
+          jobPost: result,
+        });
       });
-    }
-    if (result.applicants.includes(userId)) {
-      return res.status(400).json({
+    })
+    .catch((err) => {
+      res.status(500).json({
         success: false,
-        message: "You have already applied fot this job",
-      });
-    }
-    result.applicants.push(userId);
-    result.save().then((result) => {
-      res.status(201).json({
-        success: true,
-        message: "Successfully applied for the job",
-        jobPost: result,
+        message: "Server Error",
+        error: err.message,
       });
     });
-  }).catch((err) => {
-    res.status(500).json({
-      success: false,
-      message: "Server Error",
-      error: err.message,
-    });
-  });
 };
 
 // this function lets a company see the applicants for a job
 const getApplicantsForJob = (req, res) => {
   const jobId = req.params.id;
   const companyId = req.token.userId;
-  jobsModel.findById(jobId).populate('applicants', 'firstName lastName country phoneNumber email -_id').then((result) => {
+  jobsModel
+    .findById(jobId)
+    .populate("applicants", "firstName lastName country phoneNumber email -_id")
+    .then((result) => {
       if (!result) {
-          return res.status(404).json({
-              success: false,
-              message: `The Job post with id => ${jobId} isn't found`,
-          });
+        return res.status(404).json({
+          success: false,
+          message: `The Job post with id => ${jobId} isn't found`,
+        });
       }
       if (result.company.toString() !== companyId) {
-          return res.status(403).json({
-              success: false,
-              message: "Unauthorized",
-          });
+        return res.status(403).json({
+          success: false,
+          message: "Unauthorized",
+        });
       }
       res.status(200).json({
-          success: true,
-          message: `Applicants for the job post ${jobId}`,
-          applicants: result.applicants,
+        success: true,
+        message: `Applicants for the job post ${jobId}`,
+        applicants: result.applicants,
       });
-  }).catch((err) => {
+    })
+    .catch((err) => {
       res.status(500).json({
-          success: false,
-          message: "Server Error",
-          error: err.message,
+        success: false,
+        message: "Server Error",
+        error: err.message,
       });
-  });
+    });
 };
 
 module.exports = {

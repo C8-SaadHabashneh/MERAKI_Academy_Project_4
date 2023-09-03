@@ -15,7 +15,7 @@ const AllJobs = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const getJobs = () => {
-    axios.get(`http://localhost:5000/jobs/search?title=${searchQuery}&page=${currentPage}&limit=5`, {
+    axios.get(`http://localhost:5000/jobs/?page=${currentPage}&limit=4`, {
       headers: {
         "Authorization": `Bearer ${token}`
       }
@@ -27,26 +27,42 @@ const AllJobs = () => {
     });
   };
 
+  const searchJobs = () => {
+    axios.get(`http://localhost:5000/jobs/search?title=${searchQuery}&page=${currentPage}&limit=4`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }).then((response) => {
+      setJobs(response.data.jobs);
+      setTotalPages(response.data.totalPages);
+    }).catch((err) => {
+      console.log("Error searching jobs", err);
+    });
+  };
+
   useEffect(getJobs, [token, currentPage]);
 
   return (
     <div>
-      <Form inline>
-        <Form.Control style={{ width: '90%' }} type='text' placeholder='Search jobs...' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-        <Button style={{ width: '10%' }} onClick={getJobs}>Search</Button>
+      <Form inline className="searchBar"> 
+        <Form.Control type='text' placeholder='Search jobs...' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+        <Button onClick={searchJobs}>Search</Button>
       </Form>
+    <div className="jobCardContainer">
       {jobs.map(job => (
-        <Card key={job._id}>
+        <Card className="jobCard" key={job._id}>
           <Card.Body>
             <Card.Title>{job.title}</Card.Title>
-            <Card.Text>{job.location}</Card.Text>
-            <Button as={Link} to={`/JobPostInfo/${job._id}`}>View Job</Button>
+            <Card.Subtitle className="mt-3 text-muted">{job.company.firstName} {job.company.lastName}</Card.Subtitle>
+            <Card.Subtitle className="mt-3 text-muted">{job.company.country}</Card.Subtitle>
+            <Button className="mt-3" as={Link} to={`/JobPostInfo/${job._id}`}>View Job</Button>
           </Card.Body>
         </Card>
       ))}
-      <div>
+    </div>
+      <div className="paginationContainer">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
-          <Button key={pageNumber} onClick={() => setCurrentPage(pageNumber)}>
+          <Button key={pageNumber} variant="primary" onClick={() => {setCurrentPage(pageNumber)}}>
             {pageNumber}
           </Button>
         ))}
