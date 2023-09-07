@@ -3,8 +3,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-radius: 1cm;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
@@ -37,4 +38,18 @@
 
 .regDiv button {
     padding: 10px 20px;
+}
+
+.success {
+    padding: 3%;
+    background-color: greenyellow;
+    color: white;
+    border-radius: 1cm;
+}
+
+.error {
+    padding: 3%;
+    background-color: red;
+    color: white;
+    border-radius: 1cm;
 }

@@ -80,24 +80,22 @@ const findJobs = (req, res) => {
     .limit(limit)
     .exec()
     .then((result) => {
-      jobsModel
-        .countDocuments({ title: titleRegex })
-        .then((count) => {
-          const totalPages = Math.ceil(count / limit);
-          if (result.length) {
-            res.status(200).json({
-              success: true,
-              message: "All the jobs",
-              jobs: result,
-              totalPages: totalPages,
-            });
-          } else {
-            res.status(200).json({
-              success: false,
-              message: "No Jobs yet",
-            });
-          }
-        });
+      jobsModel.countDocuments({ title: titleRegex }).then((count) => {
+        const totalPages = Math.ceil(count / limit);
+        if (result.length) {
+          res.status(200).json({
+            success: true,
+            message: "All the jobs",
+            jobs: result,
+            totalPages: totalPages,
+          });
+        } else {
+          res.status(200).json({
+            success: false,
+            message: "No Jobs yet",
+          });
+        }
+      });
     })
     .catch((err) => {
       res.status(500).json({
@@ -238,7 +236,10 @@ const getApplicantsForJob = (req, res) => {
   const companyId = req.token.userId;
   jobsModel
     .findById(jobId)
-    .populate("applicants", "firstName lastName country skills phoneNumber email -_id")
+    .populate(
+      "applicants",
+      "firstName lastName country skills phoneNumber email -_id"
+    )
     .then((result) => {
       if (!result) {
         return res.status(404).json({

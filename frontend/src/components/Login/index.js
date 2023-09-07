@@ -3,8 +3,8 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 const Login = () => {
   const { setToken } = useContext(AppContext);
@@ -17,38 +17,51 @@ const Login = () => {
     if (message && message.status === "success") {
       navigate("/AllJobs");
     }
-  }, [message, navigate])
+  }, [message, navigate]);
 
   const loginHandler = () => {
-    const user = {email, password};
+    const user = { email, password };
 
-    axios.post("http://localhost:5000/users/login", user)
+    axios
+      .post("http://localhost:5000/users/login", user)
       .then((response) => {
-        setMessage({data: response.message, status: "success"});
+        setMessage({ data: response.data.message, status: "success" });
         setToken(response.data.token);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", response.data.role);
         localStorage.setItem("userId", response.data.userId);
-      }).catch((error) => {
-        setMessage({data: error.response.message, status: "error"});
+      })
+      .catch((error) => {
+        setMessage({ data: error.response.data.message, status: "error" });
       });
   };
 
   return (
     <Form className="loginDiv">
       <Form.Group>
-        <Form.Label>Login:</Form.Label><br/>
-        <Form.Control type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} /><br/>
-        <Form.Control type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} /><br/>
+        <Form.Label>Login:</Form.Label>
+        <br />
+        <Form.Control
+          type="email"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <br />
+        <Form.Control
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <br />
       </Form.Group>
-      {message && (
-        <div className={`${message.status}`}>
-          {message.data}
-        </div>
-      )}<br/>
-      <Button className='loginBtn' onClick={loginHandler}>Login</Button><br/>
+      {message && <div className={`${message.status}`}>{message.data}</div>}
+      <br />
+      <Button className="loginBtn" onClick={loginHandler}>
+        Login
+      </Button>
+      <br />
     </Form>
-  )
+  );
 };
 
 export default Login;

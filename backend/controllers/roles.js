@@ -2,21 +2,24 @@ const rolesModel = require("../models/roles");
 
 // this function creates a new role
 const createNewRole = (req, res) => {
-    const {role, permissions} = req.body;
-    const newRole = new rolesModel({role, permissions});
-    newRole.save().then((result) => {
-        res.status(201).json({
-            success: true,
-            message: "Role created",
-            role: result,
-        });
-    }).catch((err) => {
-        res.status(500).json({
-            success: false,
-            message: "Server Error",
-            err: err,
-        });
+  const { role, permissions } = req.body;
+  const newRole = new rolesModel({ role, permissions });
+  newRole
+    .save()
+    .then((result) => {
+      res.status(201).json({
+        success: true,
+        message: "Role created",
+        role: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        err: err,
+      });
     });
 };
 
-module.exports = {createNewRole};
+module.exports = { createNewRole };

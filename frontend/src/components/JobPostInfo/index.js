@@ -3,13 +3,14 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { AppContext } from "../../context";
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 const JobPostInfo = () => {
   const { token } = useContext(AppContext);
   const { id } = useParams();
+  const [message, setMessage] = useState(null);
   const navigate = useNavigate();
   const [jobPost, setJobPost] = useState(null);
   const [applicants, setApplicants] = useState([]);
@@ -17,8 +18,8 @@ const JobPostInfo = () => {
   const [updatedTitle, setUpdatedTitle] = useState("");
   const [updatedJobDescription, setUpdatedJobDescription] = useState("");
   const [updatedJobRequirements, setUpdatedJobRequirements] = useState("");
-  const role = localStorage.getItem('role');
-  const userId = localStorage.getItem('userId');
+  const role = localStorage.getItem("role");
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     axios
@@ -50,10 +51,10 @@ const JobPostInfo = () => {
         }
       )
       .then((response) => {
-        console.log("Applied successfully");
+        setMessage({ data: response.data.message, status: "success" });
       })
-      .catch((err) => {
-        console.error("Error applying for job", err);
+      .catch((error) => {
+        setMessage({ data: error.response.data.message, status: "error" });
       });
   };
 
@@ -67,8 +68,8 @@ const JobPostInfo = () => {
       .then((response) => {
         setApplicants(response.data.applicants);
       })
-      .catch((err) => {
-        console.error("Error fetching applicants", err);
+      .catch((error) => {
+        setMessage({ data: error.response.data.message, status: "error" });
       });
   };
 
@@ -85,12 +86,12 @@ const JobPostInfo = () => {
         },
       })
       .then((response) => {
-        console.log("Job post updated successfully");
+        setMessage({ data: response.data.message, status: "success" });
         setJobPost(response.data.jobPost);
         setIsEditing(false);
       })
-      .catch((err) => {
-        console.error("Error updating job post", err);
+      .catch((error) => {
+        setMessage({ data: error.response.data.message, status: "error" });
       });
   };
 
@@ -102,28 +103,42 @@ const JobPostInfo = () => {
         },
       })
       .then(() => {
-        console.log("Job post deleted successfully");
         navigate("/AllJobs");
       })
-      .catch((err) => {
-        console.error("Error deleting job post", err);
+      .catch((error) => {
+        setMessage({ data: error.response.data.message, status: "error" });
       });
   };
 
   return (
-    <Card className="jobInfo" style={{marginTop: "3%"}}>
+    <Card className="jobInfo" style={{ marginTop: "3%" }}>
       {jobPost && (
         <>
           {isEditing ? (
             <Form className="updatePostForm">
               <Form.Group>
                 <span className="updateLabel">Title:</span>
-                <Form.Control type="text" value={updatedTitle} onChange={(e) => setUpdatedTitle(e.target.value)} />
+                <Form.Control
+                  type="text"
+                  value={updatedTitle}
+                  onChange={(e) => setUpdatedTitle(e.target.value)}
+                />
                 <span className="updateLabel">Job Description:</span>
-                <Form.Control as="textarea" value={updatedJobDescription} onChange={(e) => setUpdatedJobDescription(e.target.value)} />
+                <Form.Control
+                  as="textarea"
+                  value={updatedJobDescription}
+                  onChange={(e) => setUpdatedJobDescription(e.target.value)}
+                />
                 <span className="updateLabel">Job Requirements:</span>
-                <Form.Control as="textarea" value={updatedJobRequirements} onChange={(e) => setUpdatedJobRequirements(e.target.value)} />
+                <Form.Control
+                  as="textarea"
+                  value={updatedJobRequirements}
+                  onChange={(e) => setUpdatedJobRequirements(e.target.value)}
+                />
               </Form.Group>
+              {message && (
+                <div className={`${message.status}`}>{message.data}</div>
+              )}
               <Button onClick={handleUpdatePost}>Submit Changes</Button>
             </Form>
           ) : (
@@ -132,21 +147,39 @@ const JobPostInfo = () => {
               <Card.Body>
                 <Card.Text>Location: {jobPost.company.country}</Card.Text>
                 <Card.Text>Job Description: {jobPost.jobDescription}</Card.Text>
-                <Card.Text>Job Requirements: {jobPost.jobRequirements}</Card.Text>
-                {token && role === "USER" && <Button onClick={handleApply}>Apply</Button>}
-                {token && role === "COMPANY" && userId === jobPost.company._id && (
-                  <>
-                    <Button onClick={handleShowApplicants}>Show Applicants</Button>
-                    <Button onClick={() => setIsEditing(true)}>Update Post</Button>
-                    <Button onClick={handleDeletePost}>Delete Post</Button>
-                  </>
+                <Card.Text>
+                  Job Requirements: {jobPost.jobRequirements}
+                </Card.Text>
+                {token && role === "USER" && (
+                  <Button onClick={handleApply}>Apply</Button>
+                )}
+                {message && (
+                  <div className={`${message.status}`}>{message.data}</div>
+                )}
+                {token &&
+                  role === "COMPANY" &&
+                  userId === jobPost.company._id && (
+                    <>
+                      <Button onClick={handleShowApplicants}>
+                        Show Applicants
+                      </Button>
+                      <Button onClick={() => setIsEditing(true)}>
+                        Update Post
+                      </Button>
+                      <Button onClick={handleDeletePost}>Delete Post</Button>
+                    </>
+                  )}
+                {message && (
+                  <div className={`${message.status}`}>{message.data}</div>
                 )}
               </Card.Body>
             </>
           )}
           {applicants.map((applicant) => (
             <Card key={applicant._id} className="JobInfo">
-              <Card.Header>{applicant.firstName} {applicant.lastName}</Card.Header>
+              <Card.Header>
+                {applicant.firstName} {applicant.lastName}
+              </Card.Header>
               <Card.Body>
                 <Card.Text>Country: {applicant.country}</Card.Text>
                 <Card.Text>Skills: {applicant.skills}</Card.Text>
@@ -155,10 +188,11 @@ const JobPostInfo = () => {
               </Card.Body>
             </Card>
           ))}
+          {message && <div className={`${message.status}`}>{message.data}</div>}
         </>
       )}
     </Card>
-  )
+  );
 };
 
 export default JobPostInfo;

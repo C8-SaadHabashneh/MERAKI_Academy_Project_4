@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-radius: 1cm;
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
@@ -31,4 +32,16 @@
 
 .loginDiv button {
     padding: 10px 20px;
+}
+
+.success {
+    padding: 3%;
+    background-color: greenyellow;
+    color: white;
+}
+
+.error {
+    padding: 3%;
+    background-color: red;
+    color: white;
 }
