@@ -1,6 +1,6 @@
 <p align="center">
 <a href="" target="_blank" rel="noopener noreferrer">
- <img width="400px" height="100px" src="./frontend/public/jobIcon.jpeg" alt="Project logo">
+ <img width="200px" height="100px" src="./frontend/public/jobIcon.jpeg" alt="Project logo">
  </a>
 </p>
 
