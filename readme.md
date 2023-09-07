@@ -1,6 +1,6 @@
 <p align="center">
-<a href="https://www.meraki-academy.org" target="_blank" rel="noopener noreferrer">
- <img width="400px" height="100px" src="https://www.meraki-academy.org/assets/img/logov02.svg" alt="Project logo">
+<a href="" target="_blank" rel="noopener noreferrer">
+ <img width="400px" height="100px" src="./frontend/public/jobIcon.jpeg" alt="Project logo">
  </a>
 </p>
 
@@ -94,7 +94,7 @@ Now app ready to use
 ## User Story <a name = "#user_story"></a>
 
 Your trello board link
-<a href=''>Trello</a>
+<a href="https://trello.com/b/dlehmeBx/job-search-platform">Trello</a>
 
 ## Data Flow <a name = "#data_flow"></a>
 
