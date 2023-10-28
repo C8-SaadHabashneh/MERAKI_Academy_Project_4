@@ -17,7 +17,7 @@ const Landing = () => {
           variant="top"
           src="https://www.betterteam.com/images/betterteam-free-job-posting-sites-5877x3918-20210222.jpg?crop=16:9,smart&width=1200&dpr=2"
         />
-        <Button variant="primary" onClick={() => navigate("/AllJobs")}>
+        <Button className="landBtn" variant="primary" onClick={() => navigate("/AllJobs")}>
           Explore Jobs
         </Button>
       </Card.Body>

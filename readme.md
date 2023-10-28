@@ -79,7 +79,7 @@ Now app ready to use
 - You can click on the Recruiter Inc Button provided in the navigation bar to view the landing section.
 - <img src="./pictures/landing.png">
 - Register Page
-- <img src="./pictures/reg.png">
+- <img src="./pictures/register.png">
 -  Login Page
   <img src="./pictures/login.png">
 

@@ -150,6 +150,7 @@ const JobPostInfo = () => {
                 <Card.Text>
                   Job Requirements: {jobPost.jobRequirements}
                 </Card.Text>
+                <Button onClick={() => navigate("/AllJobs")}>Back</Button>
                 {token && role === "USER" && (
                   <Button onClick={handleApply}>Apply</Button>
                 )}
