@@ -64,7 +64,7 @@ const AllJobs = () => {
         <Button onClick={searchJobs}>Search</Button>
       </Form>
       <div className="jobCardContainer">
-        {jobs.map((job) => (
+        {jobs && (jobs.map((job) => (
           <Card className="jobCard" key={job._id}>
             <Card.Body>
               <Card.Title>{job.title}</Card.Title>
@@ -79,7 +79,7 @@ const AllJobs = () => {
               </Button>
             </Card.Body>
           </Card>
-        ))}
+        )))}
       </div>
       {message && <div className={`${message.status}`}>{message.data}</div>}
       <div className="paginationContainer">
