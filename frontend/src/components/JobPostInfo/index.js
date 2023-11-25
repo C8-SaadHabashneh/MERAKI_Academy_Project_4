@@ -23,7 +23,7 @@ const JobPostInfo = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/jobs/${id}`, {
+      .get(`https://recruiter-inc.onrender.com/jobs/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -42,7 +42,7 @@ const JobPostInfo = () => {
   const handleApply = () => {
     axios
       .post(
-        `http://localhost:5000/jobs/${id}/apply`,
+        `https://recruiter-inc.onrender.com/jobs/${id}/apply`,
         {},
         {
           headers: {
@@ -60,7 +60,7 @@ const JobPostInfo = () => {
 
   const handleShowApplicants = () => {
     axios
-      .get(`http://localhost:5000/jobs/${id}/applicants`, {
+      .get(`https://recruiter-inc.onrender.com/jobs/${id}/applicants`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -80,7 +80,7 @@ const JobPostInfo = () => {
       jobRequirements: updatedJobRequirements,
     };
     axios
-      .put(`http://localhost:5000/jobs/${id}`, updatedJob, {
+      .put(`https://recruiter-inc.onrender.com/jobs/${id}`, updatedJob, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -97,7 +97,7 @@ const JobPostInfo = () => {
 
   const handleDeletePost = () => {
     axios
-      .delete(`http://localhost:5000/jobs/${id}`, {
+      .delete(`https://recruiter-inc.onrender.com/jobs/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -150,7 +150,7 @@ const JobPostInfo = () => {
                 <Card.Text>
                   Job Requirements: {jobPost.jobRequirements}
                 </Card.Text>
-                <Button onClick={() => navigate("/AllJobs")}>Back</Button>
+                <Button onClick={() => navigate(-1)}>Back</Button>
                 {token && role === "USER" && (
                   <Button onClick={handleApply}>Apply</Button>
                 )}
@@ -186,6 +186,7 @@ const JobPostInfo = () => {
                 <Card.Text>Skills: {applicant.skills}</Card.Text>
                 <Card.Text>Phone Number: {applicant.phoneNumber}</Card.Text>
                 <Card.Text>Email: {applicant.email}</Card.Text>
+                <Button onClick={() => navigate(-1)}>Hide</Button>
               </Card.Body>
             </Card>
           ))}

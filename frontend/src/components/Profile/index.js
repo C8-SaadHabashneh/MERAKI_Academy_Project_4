@@ -13,7 +13,7 @@ const Profile = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/users/${userId}`, {
+      .get(`https://recruiter-inc.onrender.com/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

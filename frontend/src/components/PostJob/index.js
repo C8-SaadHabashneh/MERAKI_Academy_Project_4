@@ -24,7 +24,7 @@ const PostJob = () => {
     const job = { title, jobDescription, jobRequirements };
 
     axios
-      .post("http://localhost:5000/jobs", job, {
+      .post("https://recruiter-inc.onrender.com/jobs", job, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

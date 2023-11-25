@@ -43,7 +43,7 @@ const Register = () => {
     };
 
     axios
-      .post("http://localhost:5000/users/register", user)
+      .post("https://recruiter-inc.onrender.com/users/register", user)
       .then((response) => {
         setMessage({ data: response.data.message, status: "success" });
       })

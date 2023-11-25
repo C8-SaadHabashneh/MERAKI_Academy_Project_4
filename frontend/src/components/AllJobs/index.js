@@ -17,7 +17,7 @@ const AllJobs = () => {
 
   const getJobs = () => {
     axios
-      .get(`http://localhost:5000/jobs/?page=${currentPage}&limit=4`, {
+      .get(`https://recruiter-inc.onrender.com/jobs/?page=${currentPage}&limit=4`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -34,7 +34,7 @@ const AllJobs = () => {
   const searchJobs = () => {
     axios
       .get(
-        `http://localhost:5000/jobs/search?title=${searchQuery}&page=${currentPage}&limit=4`,
+        `https://recruiter-inc.onrender.com/jobs/search?title=${searchQuery}&page=${currentPage}&limit=4`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

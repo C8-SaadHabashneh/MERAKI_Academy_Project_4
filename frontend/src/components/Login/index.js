@@ -23,7 +23,7 @@ const Login = () => {
     const user = { email, password };
 
     axios
-      .post("http://localhost:5000/users/login", user)
+      .post("https://recruiter-inc.onrender.com/users/login", user)
       .then((response) => {
         setMessage({ data: response.data.message, status: "success" });
         setToken(response.data.token);
